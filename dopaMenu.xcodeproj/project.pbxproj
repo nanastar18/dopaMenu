@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		94202EFF2D06FC2700544497 /* dopaMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = dopaMenu.app; path = "/Users/gaiasalzano/Desktop/dopaMenu/build/Debug-iphoneos/dopaMenu.app"; sourceTree = "<absolute>"; };
+		94202F192D08323F00544497 /* dopaMenu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dopaMenu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,6 +33,7 @@
 			isa = PBXGroup;
 			children = (
 				94202F012D06FC2700544497 /* dopaMenu */,
+				94202F192D08323F00544497 /* dopaMenu.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,7 +59,7 @@
 			packageProductDependencies = (
 			);
 			productName = dopaMenu;
-			productReference = 94202EFF2D06FC2700544497 /* dopaMenu.app */;
+			productReference = 94202F192D08323F00544497 /* dopaMenu.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

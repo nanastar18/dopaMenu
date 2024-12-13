@@ -15,6 +15,8 @@ struct DopaMenuView: View {
         let imageName: String?
     }
     
+    @State private var isPresented: Bool = false
+    
     let dopaMenus = [
         DopaMenu(title: "Pink DopaMenu", date: "6/12/2024", imageName: "exampleImage1"),
         DopaMenu(title: "DopaMenu 2", date: "8/12/2024", imageName: nil),
@@ -30,12 +32,12 @@ struct DopaMenuView: View {
         NavigationView {
             VStack {
                 // Title
-                Text("All DopaMenus")
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                    .foregroundColor(Color.myColor)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal)
+//                Text("All DopaMenus")
+//                    .font(.largeTitle)
+//                    .fontWeight(.bold)
+//                    .foregroundColor(Color.myColor)
+//                    .frame(maxWidth: .infinity, alignment: .leading)
+//                    .padding(.horizontal)
                 
                 // Search Bar
                 HStack {
@@ -83,9 +85,7 @@ struct DopaMenuView: View {
                 }
                 
                 // Floating Button
-                Button(action: {
-                    // Handle button tap
-                }) {
+                Button(action: {isPresented.toggle()}){
                     Image(systemName: "plus")
                         .resizable()
                         .frame(width: 34, height: 34)
@@ -94,9 +94,12 @@ struct DopaMenuView: View {
                         .background(Circle().fill(Color.white))
                         .shadow(radius: 5)
                 }
+                .sheet(isPresented: $isPresented){
+                    ProvaChat()
+                }
                 .padding(.bottom, 16)
             }
-            .navigationBarHidden(true)
+            .navigationTitle("All DopaMenus")
         }
     }
 }

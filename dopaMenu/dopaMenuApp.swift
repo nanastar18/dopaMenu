@@ -11,7 +11,7 @@ import SwiftUI
 struct dopaMenuApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            DopaMenuView()
             
         }
     }

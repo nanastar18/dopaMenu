@@ -1,5 +1,8 @@
 import SwiftUI
 
+typealias Suggestion = (String, String, String, String?, String, String, String)
+typealias SuggestionList = [Suggestion]
+
 struct ProvaChat: View {
     // Define data with three tags
     let items2 = [
@@ -9,41 +12,45 @@ struct ProvaChat: View {
         ("books", "Scrap fabric project", "2 hours", "6 materials needed", "sewing", "recycle", "colorful")
     ]
     
-    let items = [
-        ("music", "Listen to music", "20 minutes", "3 materials needed", "outside", "creativity boost", "alone time"),
-        ("cinnamon", "Bake something", "1 hour", "4 materials needed", "cooking", "at home", "hygge"),
-        ("cat", "Pet a puppy", "10 minutes", "5 materials needed", "animals", "love", "hygge"),
-        ("teaTime", "Go out for tea", "2 hours", "6 materials needed", "outside", "prize", "friends")
+    let items: SuggestionList = [
+        ("music", "Listen to music", "20 minutes", nil, "outside", "creativity boost", "alone time"),
+        ("cinnamon", "Bake something", "1 hour", nil, "cooking", "at home", "hygge"),
+        ("cat", "Pet a puppy", "10 minutes", nil, "animals", "love", "hygge"),
+        ("teaTime", "Go out for tea", "2 hours", nil, "outside", "prize", "friends")
     ]
 
-    let items3 = [
-        ("yoga", "Practice yoga", "1 hour", "4 materials needed", "healthy", "mindfulness", "at home"),
-        ("shower", "Everything shower", "1.5 hours", "0 materials needed", "relaxing", "at home", "self care"),
-        ("mask", "Do a face mask", "15 minutes", "1 material needed", "relaxing", "at home", "self care"),
-        ("nails", "Paint your nails", "30 minutes", "0 materials needed", "creativity boost", "self care", "personalization")
+    let items3: SuggestionList = [
+        ("yoga", "Practice yoga", "1 hour", nil, "healthy", "mindfulness", "at home"),
+        ("shower", "Everything shower", "1.5 hours", nil, "relaxing", "at home", "self care"),
+        ("mask", "Do a face mask", "15 minutes", nil, "relaxing", "at home", "self care"),
+        ("nails", "Paint your nails", "30 minutes", nil, "creativity boost", "self care", "personalization")
     ]
     
-    let items4 = [
-        ("movie", "Watch a movie", "2.5 hours", "1 material needed", "hygge", "relaxing", "at home"),
-        ("hosting", "Host a meetup", "3 hours", "2 materials needed", "friends", "cooking", "creative"),
-        ("grocery", "Go grocery shopping", "1.5 hours", "5 materials needed", "useful", "outside", "healthy"),
-        ("journal", "Scrap book", "1 hour", "1 material needed", "mindfulness", "relaxing", "creativity boost")
+    let items4: SuggestionList = [
+        ("movie", "Watch a movie", "2.5 hours", nil, "hygge", "relaxing", "at home"),
+        ("hosting", "Host a meetup", "3 hours", nil, "friends", "cooking", "creative"),
+        ("grocery", "Go grocery shopping", "1.5 hours", nil, "useful", "outside", "healthy"),
+        ("journal", "Scrap book", "1 hour", nil, "mindfulness", "relaxing", "creativity boost")
     ]
     
     // Combine all items
-    let allItems: [[(String, String, String, String, String, String, String)]]
+    let allItems: [SuggestionList]
     let titles = ["🥨Appetizer", "🍝Main dish", "🍳Second dish", "🍰Dessert"]
+    
+    @Environment(\.dismiss) private var dismiss
     
     @State private var currentArray = 0
     @State private var currentIndex = 0
     @State private var selections: [String] = []
+    @State private var isPresented: Bool = false
+    @State private var bindText: String = "default"
     
     init() {
         allItems = [items, items2, items3, items4]
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
+        ScrollView {
             // Display the current title above the card
             if currentArray < titles.count {
                 Text(titles[currentArray])
@@ -59,17 +66,16 @@ struct ProvaChat: View {
                     let currentItems = allItems[currentArray]
                     Image(currentItems[currentIndex].0)
                         .resizable()
-                        .scaledToFit()
-                        .frame(height: 560)
-                        .cornerRadius(16)
-                    
-                    // Overlay Title and Info
-                    LinearGradient(
-                        gradient: Gradient(colors: [Color.black.opacity(0.9), Color.black.opacity(0)]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: 150)
+                        .scaledToFill()
+                        .frame(height: 500)
+                        .overlay {
+                            LinearGradient(
+                                gradient: Gradient(colors: [Color.black.opacity(0.8), Color.black.opacity(0), Color.black.opacity(0)]),
+                                startPoint: .bottom,
+                                endPoint: .top
+                            )
+                        }
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
                     
                     VStack(alignment: .leading, spacing: 8) {
                         Text(currentItems[currentIndex].1)
@@ -83,9 +89,11 @@ struct ProvaChat: View {
                                 .font(.subheadline)
                                 .foregroundColor(.white)
                             
-                            Label(currentItems[currentIndex].3, systemImage: "scissors")
-                                .font(.subheadline)
-                                .foregroundColor(.white)
+                            if let materials = currentItems[currentIndex].3 {
+                                Label(materials, systemImage: "scissors")
+                                    .font(.subheadline)
+                                    .foregroundColor(.white)
+                            }
                         }
                         .padding(.horizontal)
                         
@@ -101,6 +109,10 @@ struct ProvaChat: View {
                         HStack {
                             Spacer()
                             Button(action: {
+                                if selections.count >= 4 {
+                                    return
+                                }
+                                
                                 // Increment index and wrap around when reaching the end
                                 currentIndex = (currentIndex + 1) % currentItems.count
                             }) {
@@ -116,6 +128,13 @@ struct ProvaChat: View {
                             .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 5)
                             
                             Button(action: {
+                                if selections.count >= 3 {
+                                    withAnimation {
+                                        isPresented.toggle()
+                                    }
+                                    return
+                                }
+                                
                                 // Select the current item's image
                                 selections.append(currentItems[currentIndex].0)
                                 
@@ -157,6 +176,8 @@ struct ProvaChat: View {
                             Text(titles[index])
                                 .font(.caption)
                                 .foregroundColor(.primary)
+                            
+                            
                         }
                     }
                 }
@@ -164,6 +185,10 @@ struct ProvaChat: View {
             }
         }
         .padding()
+        .customAlert(isPresented: $isPresented, textFieldInput: $bindText) {
+            dismiss()
+        }
+        
     }
 }
 

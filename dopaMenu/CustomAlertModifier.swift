@@ -9,7 +9,7 @@ import SwiftUI
 struct CustomAlertModifier: ViewModifier {
     @Binding var isPresented: Bool
     @Binding var textFieldInput: String
-    let onClickSave: () -> Void
+    let onClickSave: (String) -> Void
     
     func body(content: Content) -> some View {
         ZStack {
@@ -39,7 +39,7 @@ struct CustomAlertModifier: ViewModifier {
                         
                         Button("Save") {
                             isPresented = false
-                            // Save action logic here
+                            onClickSave(textFieldInput)
                         }
                         .foregroundColor(.blue)
                     }
@@ -55,7 +55,7 @@ struct CustomAlertModifier: ViewModifier {
 }
 
 extension View {
-    func customAlert(isPresented: Binding<Bool>, textFieldInput: Binding<String>, onClickSave: @escaping () -> Void) -> some View {
+    func customAlert(isPresented: Binding<Bool>, textFieldInput: Binding<String>, onClickSave: @escaping (String) -> Void) -> some View {
         self.modifier(CustomAlertModifier(isPresented: isPresented, textFieldInput: textFieldInput, onClickSave: onClickSave))
     }
 }

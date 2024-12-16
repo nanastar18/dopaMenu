@@ -6,25 +6,33 @@
 //
 
 import SwiftUI
+import SwiftData
+
+let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .short
+    return formatter
+}()
 
 struct DopaMenuView: View {
     // Sample data for DopaMenus
-    struct DopaMenu {
-        let title: String
-        let date: String
-        let imageName: String?
-    }
+//    struct DopaMenu {
+//        let title: String
+//        let date: String
+//        let imageName: String?
+//    }
     
+    @Query var menus: [Menu]
     @State private var isPresented: Bool = false
     
-    let dopaMenus = [
-        DopaMenu(title: "Pink DopaMenu", date: "6/12/2024", imageName: "exampleImage1"),
-        DopaMenu(title: "DopaMenu 2", date: "8/12/2024", imageName: nil),
-        DopaMenu(title: "DopaMenu 3", date: "14/12/2024", imageName: nil),
-        DopaMenu(title: "DopaMenu 4", date: "16/12/2024", imageName: nil),
-        DopaMenu(title: "DopaMenu 5", date: "3/02/2025", imageName: nil),
-        DopaMenu(title: "DopaMenu 6", date: "27/1/2025", imageName: nil)
-    ]
+//    let dopaMenus = [
+//        DopaMenu(title: "Pink DopaMenu", date: "6/12/2024", imageName: "exampleImage1"),
+//        DopaMenu(title: "DopaMenu 2", date: "8/12/2024", imageName: nil),
+//        DopaMenu(title: "DopaMenu 3", date: "14/12/2024", imageName: nil),
+//        DopaMenu(title: "DopaMenu 4", date: "16/12/2024", imageName: nil),
+//        DopaMenu(title: "DopaMenu 5", date: "3/02/2025", imageName: nil),
+//        DopaMenu(title: "DopaMenu 6", date: "27/1/2025", imageName: nil)
+//    ]
     
     let columns = [GridItem(.flexible()), GridItem(.flexible())]
     
@@ -54,24 +62,17 @@ struct DopaMenuView: View {
                 // Grid of DopaMenus
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(dopaMenus.indices, id: \.self) { index in
-                            let dopaMenu = dopaMenus[index]
+                        ForEach(menus) { menu in
                             VStack(alignment: .leading) {
-                                if let imageName = dopaMenu.imageName {
-                                    Image(imageName)
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(height: 80)
-                                        .cornerRadius(8)
-                                } else {
-                                    Color(.systemGray5)
-                                        .frame(height: 80)
-                                        .cornerRadius(8)
-                                }
+                                Image(menu.appetizer.imageName)
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(height: 80)
+                                    .cornerRadius(8)
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text(dopaMenu.title)
+                                    Text(menu.name)
                                         .font(.headline)
-                                    Text(dopaMenu.date)
+                                    Text(dateFormatter.string(from: menu.date))
                                         .font(.subheadline)
                                         .foregroundColor(.gray)
                                 }

@@ -6,13 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct dopaMenuApp: App {
     var body: some Scene {
         WindowGroup {
             DopaMenuView()
-            
+                .modelContainer(for: Menu.self)
         }
     }
 }

@@ -75,7 +75,9 @@ struct DopaMenuView: View {
                                     Text(dateFormatter.string(from: menu.date))
                                         .font(.subheadline)
                                         .foregroundColor(.gray)
+                                        .accessibilityLabel("Last dopamenu folder")
                                 }
+                            
                                 .padding([.leading, .bottom], 8)
                             }
                             .background(Color(.systemGray6))
@@ -94,6 +96,7 @@ struct DopaMenuView: View {
                         .padding()
                         .background(Circle().fill(Color.white))
                         .shadow(radius: 5)
+                        .accessibilityLabel("create a dopamenu")
                 }
                 .sheet(isPresented: $isPresented){
                     ProvaChat()

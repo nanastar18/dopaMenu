@@ -41,6 +41,7 @@ struct ProvaChat: View {
                             )
                         }
                         .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .accessibilityHidden(true)
                     
                     VStack(alignment: .leading, spacing: 8) {
                         Text(suggestion.title)
@@ -69,6 +70,8 @@ struct ProvaChat: View {
                             }
                         }
                         .padding(.horizontal)
+                        .accessibilityLabel("Tags")
+
                         
                         // Action Buttons
                         HStack {
@@ -87,6 +90,8 @@ struct ProvaChat: View {
                                     .frame(width: 40, height: 40)
                                     .foregroundColor(.black)
                             }
+                            .accessibilityLabel("Discard suggestion")
+                            
                             .frame(width: 80, height: 80)
                             .background(Color.white)
                             .clipShape(Circle())
@@ -114,6 +119,7 @@ struct ProvaChat: View {
                                     .scaledToFit()
                                     .frame(width: 40, height: 40)
                                     .foregroundColor(.myColor)
+                                    .accessibilityLabel("Select button")
                             }
                             .frame(width: 80, height: 80)
                             .background(Color.white)

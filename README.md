@@ -7,4 +7,4 @@ With Dopamenu you’ll be able to create the perfect set of dopamine releasing a
 - Create different menus for everyday or different vibes
 - Have fun liking and disliking suggestions
 
-[main screens of dopamenu](apppina.png)
+![main screens of dopamenu](apppina.png)
